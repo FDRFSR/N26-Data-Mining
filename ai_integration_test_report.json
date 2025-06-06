@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-06-06T20:18:02.451364",
+  "timestamp": "2025-06-06T20:29:25.763652",
   "test_results": {
     "total_transactions": 213,
     "ai_training_success": true,
@@ -8,7 +8,7 @@
     "insights_generated": 3
   },
   "analytics_report": {
-    "timestamp": "2025-06-06T20:18:02.451252",
+    "timestamp": "2025-06-06T20:29:25.763589",
     "kpis": {
       "periodo_analisi": "2023-08-01 - 2024-07-31",
       "reddito_totale": 33284.9,
