@@ -94,7 +94,7 @@ def test_ai_integration():
         # Test 3: Advanced Analytics
         print("\n🔧 Test 3: Advanced Analytics Engine...")
         analytics = N26AdvancedAnalytics(test_csv)
-        kpis = analytics.calculate_financial_kpis()
+        kpis = analytics.calculate_kpis()
         print(f"✅ KPI calcolati: {len(kpis)} metriche")
         
         # Test 4: AI Predictor

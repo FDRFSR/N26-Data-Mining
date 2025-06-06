@@ -1,0 +1,225 @@
+{
+  "timestamp": "2025-06-06T20:18:02.451364",
+  "test_results": {
+    "total_transactions": 213,
+    "ai_training_success": true,
+    "predictions_generated": 7,
+    "anomalies_detected": 8,
+    "insights_generated": 3
+  },
+  "analytics_report": {
+    "timestamp": "2025-06-06T20:18:02.451252",
+    "kpis": {
+      "periodo_analisi": "2023-08-01 - 2024-07-31",
+      "reddito_totale": 33284.9,
+      "spese_totali": 11341.3,
+      "saldo_netto": 21943.59,
+      "savings_rate": 65.93,
+      "burn_rate": 945.11,
+      "runway_months": 35.2,
+      "entertainment_ratio": 7.58,
+      "entertainment_amount": 2523.17,
+      "food_ratio": 12.32,
+      "food_amount": 4102.15,
+      "shopping_ratio": 6.8,
+      "shopping_amount": 2262.94,
+      "transport_ratio": 7.37,
+      "transport_amount": 2453.04,
+      "trend_spese": -6.92,
+      "volatilita_spese": 28.04,
+      "mesi_analizzati": 7
+    },
+    "goal_progress": {
+      "savings_progress": {
+        "target": 300.0,
+        "actual": 32311.63,
+        "progress_pct": 10770.54,
+        "status": "achieved"
+      },
+      "max_dining_out_progress": {
+        "target": 200.0,
+        "actual": 0.0,
+        "remaining": 200.0,
+        "progress_pct": 0.0,
+        "status": "on_track"
+      },
+      "max_shopping_progress": {
+        "target": 300.0,
+        "actual": 91.94,
+        "remaining": 208.06,
+        "progress_pct": 30.65,
+        "status": "on_track"
+      }
+    },
+    "benchmarks": {
+      "savings_rate": {
+        "user_value": 65.93,
+        "benchmark": 8.2,
+        "difference": 57.73,
+        "difference_pct": 704.02,
+        "status": "above"
+      },
+      "burn_rate": {
+        "user_value": 945.11,
+        "benchmark": 1450.0,
+        "difference": -504.89,
+        "difference_pct": -34.82,
+        "status": "below"
+      }
+    },
+    "financial_score": {
+      "total_score": 85.0,
+      "level": "Eccellente",
+      "emoji": "\ud83c\udf1f",
+      "components": {
+        "savings_rate": 30,
+        "goal_achievement": 25.0,
+        "spending_control": 15,
+        "trend_stability": 15
+      },
+      "recommendations": [
+        "\ud83d\udcca Le tue spese sono molto variabili - considera un budget mensile fisso"
+      ]
+    },
+    "summary": {
+      "total_transactions": 213,
+      "analysis_period": "2023-08-01 - 2024-07-31",
+      "score": 85.0,
+      "level": "Eccellente"
+    },
+    "ai_analytics": {
+      "predictions": [
+        {
+          "data": "2024-08-01",
+          "giorno": "Thursday",
+          "importo_predetto": 99.63,
+          "is_weekend": 0
+        },
+        {
+          "data": "2024-08-02",
+          "giorno": "Friday",
+          "importo_predetto": 100.9,
+          "is_weekend": 0
+        },
+        {
+          "data": "2024-08-03",
+          "giorno": "Saturday",
+          "importo_predetto": 105.77,
+          "is_weekend": 1
+        },
+        {
+          "data": "2024-08-04",
+          "giorno": "Sunday",
+          "importo_predetto": 107.78,
+          "is_weekend": 1
+        },
+        {
+          "data": "2024-08-05",
+          "giorno": "Monday",
+          "importo_predetto": 102.35,
+          "is_weekend": 0
+        },
+        {
+          "data": "2024-08-06",
+          "giorno": "Tuesday",
+          "importo_predetto": 99.34,
+          "is_weekend": 0
+        },
+        {
+          "data": "2024-08-07",
+          "giorno": "Wednesday",
+          "importo_predetto": 95.74,
+          "is_weekend": 0
+        }
+      ],
+      "anomalies_count": 8,
+      "insights_count": 3
+    }
+  },
+  "ai_predictions": [
+    {
+      "data": "2024-08-01",
+      "giorno": "Thursday",
+      "importo_predetto": 99.63,
+      "is_weekend": 0
+    },
+    {
+      "data": "2024-08-02",
+      "giorno": "Friday",
+      "importo_predetto": 100.9,
+      "is_weekend": 0
+    },
+    {
+      "data": "2024-08-03",
+      "giorno": "Saturday",
+      "importo_predetto": 105.77,
+      "is_weekend": 1
+    },
+    {
+      "data": "2024-08-04",
+      "giorno": "Sunday",
+      "importo_predetto": 107.78,
+      "is_weekend": 1
+    },
+    {
+      "data": "2024-08-05",
+      "giorno": "Monday",
+      "importo_predetto": 102.35,
+      "is_weekend": 0
+    },
+    {
+      "data": "2024-08-06",
+      "giorno": "Tuesday",
+      "importo_predetto": 99.34,
+      "is_weekend": 0
+    },
+    {
+      "data": "2024-08-07",
+      "giorno": "Wednesday",
+      "importo_predetto": 95.74,
+      "is_weekend": 0
+    }
+  ],
+  "anomalies": [
+    {
+      "data": "2024-07-13",
+      "importo": -142.12763277999815,
+      "categoria": "Entertainment",
+      "descrizione": "Entertainment transaction",
+      "anomaly_score": -0.045026504882338836,
+      "severity": "Media"
+    },
+    {
+      "data": "2024-07-14",
+      "importo": -39.380713581636016,
+      "categoria": "Transport",
+      "descrizione": "Transport transaction",
+      "anomaly_score": -0.03063338005319871,
+      "severity": "Media"
+    },
+    {
+      "data": "2024-07-02",
+      "importo": -114.52407367859148,
+      "categoria": "Entertainment",
+      "descrizione": "Entertainment transaction",
+      "anomaly_score": -0.030532690190393286,
+      "severity": "Media"
+    },
+    {
+      "data": "2024-07-09",
+      "importo": -24.249201114842016,
+      "categoria": "Food",
+      "descrizione": "Food transaction",
+      "anomaly_score": -0.029862993143187966,
+      "severity": "Media"
+    },
+    {
+      "data": "2024-07-06",
+      "importo": -5.525749976846143,
+      "categoria": "Entertainment",
+      "descrizione": "Entertainment transaction",
+      "anomaly_score": -0.019941349680001608,
+      "severity": "Media"
+    }
+  ]
+}

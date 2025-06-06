@@ -367,7 +367,7 @@ class N26AdvancedAnalytics:
     
     def generate_comprehensive_report(self) -> Dict:
         """Genera report completo con tutti gli analytics"""
-        kpis = self.calculate_financial_kpis()
+        kpis = self.calculate_kpis()
         goal_progress = self.calculate_goal_progress()
         benchmarks = self.compare_with_benchmarks(kpis)
         financial_score = self.generate_financial_score(kpis, goal_progress)

@@ -25,7 +25,8 @@ class N26AIPredictor:
         self.df = None
         self.spending_model = None
         self.anomaly_detector = None
-        self.scaler = StandardScaler()
+        self.scaler = StandardScaler()  # Per spending predictor
+        self.anomaly_scaler = StandardScaler()  # Per anomaly detector
         self.feature_columns = []
         if csv_path:
             self.load_and_prepare_data()
@@ -114,12 +115,16 @@ class N26AIPredictor:
             X = spese_df[self.feature_columns]
             y = spese_df['ImportoAbs']  # Prediciamo l'importo assoluto
             
+            print(f"   Debug: Training features shape: {X.shape}")
+            print(f"   Debug: Feature columns: {self.feature_columns}")
+            
             # Split train/test
             X_train, X_test, y_train, y_test = train_test_split(
                 X, y, test_size=0.2, random_state=42
             )
             
             # Scaling
+            self.scaler = StandardScaler()
             X_train_scaled = self.scaler.fit_transform(X_train)
             X_test_scaled = self.scaler.transform(X_test)
             
@@ -156,7 +161,7 @@ class N26AIPredictor:
                 return False
             
             X = spese_df[self.feature_columns + ['ImportoAbs']]
-            X_scaled = self.scaler.fit_transform(X)
+            X_scaled = self.anomaly_scaler.fit_transform(X)
             
             # Training anomaly detector
             self.anomaly_detector = IsolationForest(
@@ -214,21 +219,27 @@ class N26AIPredictor:
             for i in range(1, 8):  # Prossimi 7 giorni
                 next_date = last_date + timedelta(days=i)
                 
-                # Crea features per la predizione
+                # Crea features per la predizione (stesso ordine del training)
                 features = {
                     'Giorno': next_date.day,
                     'Mese': next_date.month,
                     'GiornoSettimana': next_date.weekday(),
                     'GiornoAnno': next_date.timetuple().tm_yday,
                     'Settimana': next_date.isocalendar()[1],
-                    'Categoria_encoded': self.df['Categoria_encoded'].mode().iloc[0],
+                    'Categoria_encoded': self.df['Categoria_encoded'].mode().iloc[0] if len(self.df) > 0 else 0,
                     'IsWeekend': 1 if next_date.weekday() >= 5 else 0,
-                    'SpesaMedia7g': self.df['ImportoAbs'].tail(7).mean(),
-                    'SpesaMax7g': self.df['ImportoAbs'].tail(7).max()
+                    'SpesaMedia7g': self.df['ImportoAbs'].tail(7).mean() if len(self.df) > 0 else 0,
+                    'SpesaMax7g': self.df['ImportoAbs'].tail(7).max() if len(self.df) > 0 else 0
                 }
                 
+                # Mantieni stesso ordine delle feature columns del training
+                feature_values = [features[col] for col in self.feature_columns]
+                
+                print(f"   Debug: Prediction features length: {len(feature_values)}")
+                print(f"   Debug: Expected features: {len(self.feature_columns)}")
+                
                 # Predizione
-                X_pred = np.array([list(features.values())])
+                X_pred = np.array([feature_values])
                 X_pred_scaled = self.scaler.transform(X_pred)
                 predicted_amount = self.spending_model.predict(X_pred_scaled)[0]
                 
@@ -262,7 +273,7 @@ class N26AIPredictor:
             
             # Prepara features
             X = spese_recent[self.feature_columns + ['ImportoAbs']]
-            X_scaled = self.scaler.transform(X)
+            X_scaled = self.anomaly_scaler.transform(X)
             
             # Detect anomalies
             anomaly_scores = self.anomaly_detector.decision_function(X_scaled)
