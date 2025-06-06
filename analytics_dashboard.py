@@ -244,6 +244,14 @@ class AdvancedAnalyticsDashboard(QMainWindow):
         charts_section = self.create_charts_section()
         scroll_layout.addWidget(charts_section)
         
+        # AI Predictions Section
+        ai_section = self.create_ai_predictions_section()
+        scroll_layout.addWidget(ai_section)
+        
+        # AI Predictions Section
+        ai_section = self.create_ai_predictions_section()
+        scroll_layout.addWidget(ai_section)
+        
         scroll.setWidget(scroll_widget)
         scroll.setWidgetResizable(True)
         self.setCentralWidget(scroll)
@@ -405,6 +413,120 @@ class AdvancedAnalyticsDashboard(QMainWindow):
         group.setLayout(layout)
         return group
     
+    def create_ai_predictions_section(self):
+        """Crea sezione AI Predictions"""
+        group = QGroupBox("🤖 AI-Powered Predictions & Insights")
+        layout = QVBoxLayout()
+        
+        # Pulsante per attivare AI
+        ai_button = QPushButton("🧠 Genera Predizioni AI")
+        ai_button.clicked.connect(self.generate_ai_predictions)
+        ai_button.setStyleSheet("""
+            QPushButton {
+                background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                           stop: 0 #6c5ce7, stop: 1 #a29bfe);
+                font-size: 14px;
+                font-weight: bold;
+                padding: 12px;
+                border-radius: 8px;
+            }
+            QPushButton:hover {
+                background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                           stop: 0 #5f3dc4, stop: 1 #9775fa);
+            }
+        """)
+        layout.addWidget(ai_button)
+        
+        # Area per risultati AI
+        self.ai_results_text = QTextEdit()
+        self.ai_results_text.setMaximumHeight(150)
+        self.ai_results_text.setPlaceholderText("Clicca 'Genera Predizioni AI' per ottenere insights intelligenti...")
+        self.ai_results_text.setStyleSheet("""
+            QTextEdit {
+                background-color: #333;
+                border: 1px solid #6c5ce7;
+                border-radius: 6px;
+                padding: 10px;
+                color: #ccc;
+                font-family: 'Consolas', monospace;
+            }
+        """)
+        layout.addWidget(self.ai_results_text)
+        
+        # Sezione predizioni spese
+        predictions_layout = QHBoxLayout()
+        
+        self.next_week_label = QLabel("📅 Prossima Settimana: --")
+        self.next_week_label.setStyleSheet("font-size: 14px; font-weight: bold; color: #6c5ce7;")
+        predictions_layout.addWidget(self.next_week_label)
+        
+        self.anomalies_label = QLabel("🚨 Anomalie Rilevate: --")
+        self.anomalies_label.setStyleSheet("font-size: 14px; font-weight: bold; color: #e17055;")
+        predictions_layout.addWidget(self.anomalies_label)
+        
+        layout.addLayout(predictions_layout)
+        
+        group.setLayout(layout)
+        return group
+
+    def generate_ai_predictions(self):
+        """Genera predizioni AI utilizzando il modulo ai_predictor"""
+        try:
+            # Import del modulo AI
+            import ai_predictor
+            
+            # Inizializza predictor
+            predictor = ai_predictor.N26AIPredictor()
+            
+            # Carica dati se disponibili
+            if self.analytics and hasattr(self.analytics, 'df') and self.analytics.df is not None:
+                # Prepara DataFrame per AI
+                ai_df = self.analytics.df.copy()
+                ai_df = ai_df.rename(columns={'Data': 'Date', 'Importo': 'Amount', 'Categoria': 'Category'})
+                
+                # Training del modello
+                self.ai_results_text.setText("🔄 Training AI model...")
+                success = predictor.train_model(ai_df)
+                
+                if success:
+                    insights = []
+                    
+                    # Predizione spese prossima settimana
+                    predictions = predictor.predict_next_week_spending()
+                    if predictions:
+                        total_predicted = sum(p['importo_predetto'] for p in predictions)
+                        self.next_week_label.setText(f"📅 Prossima Settimana: €{total_predicted:.2f}")
+                        insights.append(f"🔮 Predizione spese prossima settimana: €{total_predicted:.2f}")
+                        insights.append(f"   • Media giornaliera prevista: €{total_predicted/7:.2f}")
+                    
+                    # Rilevamento anomalie
+                    anomalies = predictor.detect_spending_anomalies()
+                    self.anomalies_label.setText(f"🚨 Anomalie Rilevate: {len(anomalies)}")
+                    if len(anomalies) > 0:
+                        insights.append(f"⚠️ Trovate {len(anomalies)} transazioni anomale:")
+                        for i, anomaly in enumerate(anomalies[:3]):
+                            insights.append(f"   • {anomaly['data']}: €{anomaly['importo']:.2f} - {anomaly['severity']} risk")
+                    
+                    # Generazione insights
+                    ai_insights = predictor.get_spending_insights()
+                    if ai_insights:
+                        insights.append("\n💡 Smart Insights:")
+                        for insight in ai_insights[:3]:
+                            insights.append(f"   • {insight['titolo']}")
+                    
+                    # Mostra risultati
+                    self.ai_results_text.setText("\n".join(insights))
+                    
+                else:
+                    self.ai_results_text.setText("❌ Errore training modello AI")
+            else:
+                self.ai_results_text.setText("⚠️ Nessun dato disponibile per l'analisi AI")
+                
+        except ImportError:
+            self.ai_results_text.setText("❌ Modulo AI non disponibile. Verifica che ai_predictor.py sia presente.")
+        except Exception as e:
+            self.ai_results_text.setText(f"❌ Errore AI: {e}")
+
     def load_analytics(self):
         """Carica dati analytics"""
         try:
